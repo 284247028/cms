@@ -6,12 +6,16 @@ namespace SiteServer.CMS.Core
 {
 	public static class AccessTokenManager
 	{
-	    public const string ScopeUsers = "users";
-        public const string ScopeStl = "stl";
+	    public const string ScopeContents = "Contents";
+        public const string ScopeAdministrators = "Administrators";
+	    public const string ScopeUsers = "Users";
+        public const string ScopeStl = "STL";
 
 	    public static List<string> ScopeList => new List<string>
 	    {
-	        ScopeUsers,
+	        ScopeContents,
+            ScopeAdministrators,
+            ScopeUsers,
             ScopeStl
         };
 
@@ -57,7 +61,7 @@ namespace SiteServer.CMS.Core
 	        var tokenInfo = GetAccessTokenInfo(token);
 	        if (tokenInfo == null) return false;
 
-	        return StringUtils.In(tokenInfo.Scopes, scope);
+	        return StringUtils.ContainsIgnoreCase(TranslateUtils.StringCollectionToStringList(tokenInfo.Scopes), scope);
 	    }
 
         public static AccessTokenInfo GetAccessTokenInfo(string token)
